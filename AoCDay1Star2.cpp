@@ -1,25 +1,34 @@
 #include <iostream>
 #include <fstream>
 #include <string>
-#include <map>
 #include <ctype.h>
+#include <regex>
 using namespace std;
 
-int wordToNumber(const std::string& word) {
-    map<string, int> wordToNumberMap = {
-        {"one", 1},
-        {"two", 2},
-        {"three", 3},
-        {"four", 4},
-        {"five", 5},
-        {"six", 6},
-        {"seven", 7},
-        {"eight", 8},
-        {"nine", 9}
-    };
-
-    auto it = wordToNumberMap.find(word);
-    return (it != wordToNumberMap.end()) ? it->second : 0;
+//this is so
+string replaceSubstring(const string& input, const string& search, const string& replace){
+    regex pattern(search);
+    string result = regex_replace(input, pattern, replace);
+    return result;
+}
+//therre has to be a better way
+void convern(string &word){
+    word = replaceSubstring(word, "eight", "eightt");
+    word = replaceSubstring(word, "two", "twoo");
+    word = replaceSubstring(word, "seven", "sevenn");
+    word = replaceSubstring(word, "one", "onee");
+    word = replaceSubstring(word, "three", "threee");
+    word = replaceSubstring(word, "five", "fivee");
+    word = replaceSubstring(word, "nine", "ninee");
+    word = replaceSubstring(word, "one", "1");
+    word = replaceSubstring(word, "two", "2");
+    word = replaceSubstring(word, "three", "3");
+    word = replaceSubstring(word, "four", "4");
+    word = replaceSubstring(word, "five", "5");
+    word = replaceSubstring(word, "six", "6");
+    word = replaceSubstring(word, "seven", "7");
+    word = replaceSubstring(word, "eight", "8");
+    word = replaceSubstring(word, "nine", "9");
 }
 int main(){
     ifstream inputFile("D1S1.txt");
@@ -31,35 +40,29 @@ int main(){
 
     int sum = 0;
     string line;
-    string digitOne;
-    string digitTwo;
-    string con;
+    int con;
+    int digitOnething = 0;
+    int digitTwothing = 0;
 
     while(getline(inputFile, line)){
-        digitOne.clear();
-        digitTwo.clear();
-        string word;
+        cout << "Line: " << line << endl;
+        convern(line);
+        digitOnething = 0;
+        digitTwothing = 0;
         for(char c : line){
             if(isdigit(c)){
-                if(digitOne == ""){
-                    digitOne = c;
+               if(digitOnething == 0){
+                    digitOnething = c - '0';
                 }
-                digitTwo = c;
-            }if(isalpha(c)){
-                word+=c;
-            }
-            else if(!word.empty()){
-                if(digitOne.empty()){
-                    digitOne = wordToNumber(word);
-                }
-                digitTwo = wordToNumber(word);
-                word.clear();
+               digitTwothing = c - '0';
             }
         }
-        cout << line << endl;
-        cout << digitOne << digitTwo << endl;
-        con = digitOne + digitTwo;
-        sum += stoi(con);
+        
+        cout << "Digit One Digit Two: " << digitOnething << digitTwothing << endl;
+        //digitOne,Two 
+        con = (digitOnething * 10) + digitTwothing;
+        cout <<"Con: " << con << endl;
+        sum += con;
     }
 
     inputFile.close();
